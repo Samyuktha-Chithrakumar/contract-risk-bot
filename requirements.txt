@@ -1,0 +1,10 @@
+streamlit
+spacy
+nltk
+sentence-transformers
+scikit-learn
+python-docx
+pdfplumber
+langdetect
+reportlab
+openai==0.28.1
