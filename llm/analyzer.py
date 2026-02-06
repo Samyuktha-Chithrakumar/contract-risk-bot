@@ -86,6 +86,17 @@ def fixed_explanation(clause: str) -> str:
 
     text = clause.lower()
 
+    # ---- LOCK-IN PERIOD (must be checked first) ----
+    if "lock-in" in text or ("shall not terminate" in text and "period" in text):
+        return (
+            "**Plain English Explanation:**\n"
+            "This clause prevents one party from exiting the contract for a fixed period.\n\n"
+            "**Risk Level:** Medium\n"
+            "A long lock-in period reduces flexibility and may cause problems if business needs change.\n\n"
+            "**Suggested Change:**\n"
+            "Request a shorter lock-in period or allow early termination with a reasonable exit fee."
+        )
+
     if "terminate" in text:
         return (
             "**Plain English Explanation:**\n"
