@@ -1,14 +1,10 @@
 import spacy
-from spacy.cli import download
 
-def load_spacy_model():
-    try:
-        return spacy.load("en_core_web_sm")
-    except OSError:
-        download("en_core_web_sm")
-        return spacy.load("en_core_web_sm")
-
-nlp = load_spacy_model()
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    # Fallback if model is unavailable (still allows app to run)
+    nlp = spacy.blank("en")
 
 
 def extract_entities(text):
