@@ -3,10 +3,10 @@ from datetime import datetime
 
 
 # ---------- Utils ----------
+from utils.pdf_exporter import export_pdf_to_bytes
 from utils.pdf_reader import extract_pdf_text
 from utils.docx_reader import extract_docx_text
 from utils.logger import hash_file, log_event
-from utils.pdf_exporter import export_pdf
 
 # ---------- NLP ----------
 from nlp.clause_extractor import extract_clauses
@@ -135,16 +135,13 @@ if uploaded_file:
     # ======================================================
     # I. PDF EXPORT
     # ======================================================
+
+
     if st.button("📄 Download Risk Summary (PDF)"):
         st.session_state.report_count += 1
 
-        # Timestamp for filename
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-
-        filename = (
-            f"contract_report_{timestamp}_"
-            f"{st.session_state.report_count}.pdf"
-        )
+        filename = f"contract_report_{timestamp}_{st.session_state.report_count}.pdf"
 
         summary_text = (
             f"Contract Type: {contract_type}\n"
@@ -152,7 +149,14 @@ if uploaded_file:
         )
         summary_text += "\n".join(report_lines)
 
-        pdf_file = export_pdf(summary_text, filename)
-        st.success(f"PDF generated: {pdf_file}")
+        pdf_bytes = export_pdf_to_bytes(summary_text)
+
+        st.download_button(
+            label="⬇️ Click here to download PDF",
+            data=pdf_bytes,
+            file_name=filename,
+            mime="application/pdf"
+        )
+
 
 
